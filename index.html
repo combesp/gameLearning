@@ -133,93 +133,25 @@
     .feedback.ok{ color: var(--ok); }
     .feedback.bad{ color: var(--bad); }
 
-    /* Pixel-art castle with growing towers */
+        /* Pixel-art castle with growing towers */
     .castle{
       position:absolute;
-      width:120px; height:140px;
+      width:120px; height:120px;
       left:0; top:50%; transform:translate(-110%, -50%);
+      background-image: url('/Media/castle.png');
+      background-size: 300% 300%;
+      background-repeat: no-repeat;
     }
-    .castle.stage0{ background:none; }
-    .castle.stage1{ background:
-        linear-gradient(#d8c8b0,#d8c8b0) 20px 100px/80px 40px no-repeat;
-    }
-    .castle.stage2{ background:
-        linear-gradient(#d8c8b0,#d8c8b0) 20px 100px/80px 40px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 0 60px/40px 80px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 80px 60px/40px 80px no-repeat;
-    }
-    .castle.stage3{ background:
-        linear-gradient(#d8c8b0,#d8c8b0) 20px 100px/80px 40px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 0 60px/40px 80px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 80px 60px/40px 80px no-repeat,
-        linear-gradient(45deg, transparent 50%, #4caf50 50%) 0 40px/20px 20px no-repeat,
-        linear-gradient(135deg, transparent 50%, #4caf50 50%) 20px 40px/20px 20px no-repeat,
-        linear-gradient(45deg, transparent 50%, #4caf50 50%) 80px 40px/20px 20px no-repeat,
-        linear-gradient(135deg, transparent 50%, #4caf50 50%) 100px 40px/20px 20px no-repeat;
-    }
-    .castle.stage4{ background:
-        linear-gradient(#d8c8b0,#d8c8b0) 20px 100px/80px 40px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 0 60px/40px 80px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 80px 60px/40px 80px no-repeat,
-        linear-gradient(45deg, transparent 50%, #4caf50 50%) 0 40px/20px 20px no-repeat,
-        linear-gradient(135deg, transparent 50%, #4caf50 50%) 20px 40px/20px 20px no-repeat,
-        linear-gradient(45deg, transparent 50%, #4caf50 50%) 80px 40px/20px 20px no-repeat,
-        linear-gradient(135deg, transparent 50%, #4caf50 50%) 100px 40px/20px 20px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 40px 80px/40px 60px no-repeat;
-    }
-    .castle.stage5{ background:
-        linear-gradient(#d8c8b0,#d8c8b0) 20px 100px/80px 40px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 0 60px/40px 80px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 80px 60px/40px 80px no-repeat,
-        linear-gradient(45deg, transparent 50%, #4caf50 50%) 0 40px/20px 20px no-repeat,
-        linear-gradient(135deg, transparent 50%, #4caf50 50%) 20px 40px/20px 20px no-repeat,
-        linear-gradient(45deg, transparent 50%, #4caf50 50%) 80px 40px/20px 20px no-repeat,
-        linear-gradient(135deg, transparent 50%, #4caf50 50%) 100px 40px/20px 20px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 40px 80px/40px 60px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 40px 40px/40px 40px no-repeat,
-        linear-gradient(45deg, transparent 50%, #4caf50 50%) 40px 20px/20px 20px no-repeat,
-        linear-gradient(135deg, transparent 50%, #4caf50 50%) 60px 20px/20px 20px no-repeat;
-    }
-    .castle.stage6{ background:
-        linear-gradient(#d8c8b0,#d8c8b0) 20px 100px/80px 40px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 0 60px/40px 80px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 80px 60px/40px 80px no-repeat,
-        linear-gradient(45deg, transparent 50%, #4caf50 50%) 0 40px/20px 20px no-repeat,
-        linear-gradient(135deg, transparent 50%, #4caf50 50%) 20px 40px/20px 20px no-repeat,
-        linear-gradient(45deg, transparent 50%, #4caf50 50%) 80px 40px/20px 20px no-repeat,
-        linear-gradient(135deg, transparent 50%, #4caf50 50%) 100px 40px/20px 20px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 40px 80px/40px 60px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 40px 20px/40px 80px no-repeat,
-        linear-gradient(45deg, transparent 50%, #4caf50 50%) 40px 0/20px 20px no-repeat,
-        linear-gradient(135deg, transparent 50%, #4caf50 50%) 60px 0/20px 20px no-repeat;
-    }
-    .castle.stage7{ background:
-        linear-gradient(#d8c8b0,#d8c8b0) 20px 100px/80px 40px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 0 40px/40px 100px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 80px 40px/40px 100px no-repeat,
-        linear-gradient(45deg, transparent 50%, #4caf50 50%) 0 20px/20px 20px no-repeat,
-        linear-gradient(135deg, transparent 50%, #4caf50 50%) 20px 20px/20px 20px no-repeat,
-        linear-gradient(45deg, transparent 50%, #4caf50 50%) 80px 20px/20px 20px no-repeat,
-        linear-gradient(135deg, transparent 50%, #4caf50 50%) 100px 20px/20px 20px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 40px 20px/40px 80px no-repeat,
-        linear-gradient(45deg, transparent 50%, #4caf50 50%) 40px 0/20px 20px no-repeat,
-        linear-gradient(135deg, transparent 50%, #4caf50 50%) 60px 0/20px 20px no-repeat;
-    }
-    .castle.stage8{ background:
-        linear-gradient(#d8c8b0,#d8c8b0) 20px 100px/80px 40px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 0 20px/40px 120px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 80px 20px/40px 120px no-repeat,
-        linear-gradient(45deg, transparent 50%, #4caf50 50%) 0 0/20px 20px no-repeat,
-        linear-gradient(135deg, transparent 50%, #4caf50 50%) 20px 0/20px 20px no-repeat,
-        linear-gradient(45deg, transparent 50%, #4caf50 50%) 80px 0/20px 20px no-repeat,
-        linear-gradient(135deg, transparent 50%, #4caf50 50%) 100px 0/20px 20px no-repeat,
-        linear-gradient(#d8c8b0,#d8c8b0) 40px 20px/40px 80px no-repeat,
-        linear-gradient(45deg, transparent 50%, #4caf50 50%) 40px 0/20px 20px no-repeat,
-        linear-gradient(135deg, transparent 50%, #4caf50 50%) 60px 0/20px 20px no-repeat,
-        linear-gradient(#ff6666,#ff6666) 14px 0/4px 14px no-repeat,
-        linear-gradient(#ff6666,#ff6666) 94px 0/4px 14px no-repeat,
-        linear-gradient(#ff6666,#ff6666) 54px -10px/4px 14px no-repeat;
-    }
+    .castle.stage0{ background-position: left top; }
+    .castle.stage1{ background-position: center top; }
+    .castle.stage2{ background-position: left center; }
+    .castle.stage3{ background-position: right top; }
+    .castle.stage4{ background-position: center center; }
+    .castle.stage5{ background-position: left bottom; }
+    .castle.stage6{ background-position: center bottom; }
+    .castle.stage7{ background-position: right bottom; }
+    .castle.stage8{ background-position: right center; }
+
 
     /* Wandering unicorns and fairies */
     .critters{ position:fixed; bottom:20px; left:-80px; font-size:32px; pointer-events:none; animation: critterWalk 6s linear forwards; }
