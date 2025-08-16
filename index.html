@@ -136,11 +136,12 @@
         /* Pixel-art castle with growing towers */
     .castle{
       position:absolute;
-      width:120px; height:120px;
-      left:0; top:50%; transform:translate(-110%, -50%);
+      width:480px; height:480px;
+      left:0; top:50%; transform:translate(calc(-100% - 12px), -50%);
       background-image: url('Media/castle.png');
       background-size: 300% 300%;
       background-repeat: no-repeat;
+      image-rendering: pixelated;
     }
     .castle.stage0{ background-position: left top; }
     .castle.stage1{ background-position: center top; }
@@ -600,9 +601,10 @@
         state.score += gained;
 
         // Feedback + confetti
-        showFeedback(true, PRAISE[rnd(0, PRAISE.length-1)] + ` +${gained} pts`);
+        const praise = PRAISE[rnd(0, PRAISE.length-1)];
+        showFeedback(true, `${praise} +${gained} pts`);
         celebrate();
-        speakShort('Bravo !');
+        speakShort(praise);
 
         // Unlock progression: every 5 correct answers → +1 sound
         state.correctSinceUnlock++;
@@ -616,8 +618,9 @@
         state.streak = 0;
         state.current.box = 1; schedule(state.current);
         const penalty = 20; state.score = Math.max(0, state.score - penalty);
-        showFeedback(false, ENCOURAGE[rnd(0, ENCOURAGE.length-1)] + `  (Bonne réponse : “${state.current.g}”)`);
-        speakShort('On réessaie !');
+        const encourage = ENCOURAGE[rnd(0, ENCOURAGE.length-1)];
+        showFeedback(false, `${encourage}  (Bonne réponse : “${state.current.g}”)`);
+        speakShort(encourage);
         state.castleStage = Math.max(0, state.castleStage - 1);
       }
 
