@@ -162,12 +162,23 @@
       width:180px;
       height:180px;
       pointer-events:none;
-      background:url('Media/unicorn.png') 0 0 / 900% 100% no-repeat;
-      animation: unicornFly 6s linear forwards, unicornGallop 1s steps(9) infinite;
+      background:url('Media/unicorn.png') 0 0 / 300% 300% no-repeat;
+      animation: unicornFly 6s linear forwards, unicornGallop 1s steps(1, end) infinite;
       z-index: 20;
     }
     @keyframes unicornFly{ from{ transform: translateX(0); } to{ transform: translateX(calc(100vw + 360px)); } }
-    @keyframes unicornGallop{ from{ background-position:0 0; } to{ background-position:100% 0; } }
+    @keyframes unicornGallop{
+      0%{ background-position:   0%   0%; }
+      11.11%{ background-position: -100%   0%; }
+      22.22%{ background-position: -200%   0%; }
+      33.33%{ background-position:   0% -100%; }
+      44.44%{ background-position: -100% -100%; }
+      55.55%{ background-position: -200% -100%; }
+      66.66%{ background-position:   0% -200%; }
+      77.77%{ background-position: -100% -200%; }
+      88.88%{ background-position: -200% -200%; }
+      100%{ background-position:   0%   0%; }
+    }
 
     .levelbar{ height: 10px; background:#ffe6f3; border:1px solid #ffd0e6; border-radius:999px; overflow:hidden; }
     .levelbar > i{ display:block; height:100%; width:0%; background: linear-gradient(90deg, #ff9ecb, #ff69b4); transition: width .3s ease; }
