@@ -133,37 +133,92 @@
     .feedback.ok{ color: var(--ok); }
     .feedback.bad{ color: var(--bad); }
 
-    /* Pixel-art castle built with layered gradients */
-    .castle{ position:relative; width:80px; height:60px; margin:4px auto; }
+    /* Pixel-art castle with growing towers */
+    .castle{
+      position:absolute;
+      width:120px; height:140px;
+      left:0; top:50%; transform:translate(-110%, -50%);
+    }
     .castle.stage0{ background:none; }
     .castle.stage1{ background:
-        linear-gradient(#cdb79e,#cdb79e) 10px 40px/60px 20px no-repeat;
+        linear-gradient(#d8c8b0,#d8c8b0) 20px 100px/80px 40px no-repeat;
     }
     .castle.stage2{ background:
-        linear-gradient(#cdb79e,#cdb79e) 10px 40px/60px 20px no-repeat,
-        linear-gradient(#cdb79e,#cdb79e) 0px 30px/20px 30px no-repeat,
-        linear-gradient(#cdb79e,#cdb79e) 60px 30px/20px 30px no-repeat;
+        linear-gradient(#d8c8b0,#d8c8b0) 20px 100px/80px 40px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 0 60px/40px 80px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 80px 60px/40px 80px no-repeat;
     }
     .castle.stage3{ background:
-        linear-gradient(#cdb79e,#cdb79e) 10px 40px/60px 20px no-repeat,
-        linear-gradient(#cdb79e,#cdb79e) 0px 30px/20px 30px no-repeat,
-        linear-gradient(#cdb79e,#cdb79e) 60px 30px/20px 30px no-repeat,
-        linear-gradient(#8b7d6b,#8b7d6b) 0px 28px/20px 2px no-repeat,
-        linear-gradient(#8b7d6b,#8b7d6b) 60px 28px/20px 2px no-repeat;
+        linear-gradient(#d8c8b0,#d8c8b0) 20px 100px/80px 40px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 0 60px/40px 80px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 80px 60px/40px 80px no-repeat,
+        linear-gradient(45deg, transparent 50%, #4caf50 50%) 0 40px/20px 20px no-repeat,
+        linear-gradient(135deg, transparent 50%, #4caf50 50%) 20px 40px/20px 20px no-repeat,
+        linear-gradient(45deg, transparent 50%, #4caf50 50%) 80px 40px/20px 20px no-repeat,
+        linear-gradient(135deg, transparent 50%, #4caf50 50%) 100px 40px/20px 20px no-repeat;
     }
     .castle.stage4{ background:
-        linear-gradient(#cdb79e,#cdb79e) 10px 40px/60px 20px no-repeat,
-        linear-gradient(#cdb79e,#cdb79e) 0px 30px/20px 30px no-repeat,
-        linear-gradient(#cdb79e,#cdb79e) 60px 30px/20px 30px no-repeat,
-        linear-gradient(#cdb79e,#cdb79e) 20px 20px/40px 40px no-repeat;
+        linear-gradient(#d8c8b0,#d8c8b0) 20px 100px/80px 40px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 0 60px/40px 80px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 80px 60px/40px 80px no-repeat,
+        linear-gradient(45deg, transparent 50%, #4caf50 50%) 0 40px/20px 20px no-repeat,
+        linear-gradient(135deg, transparent 50%, #4caf50 50%) 20px 40px/20px 20px no-repeat,
+        linear-gradient(45deg, transparent 50%, #4caf50 50%) 80px 40px/20px 20px no-repeat,
+        linear-gradient(135deg, transparent 50%, #4caf50 50%) 100px 40px/20px 20px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 40px 80px/40px 60px no-repeat;
     }
     .castle.stage5{ background:
-        linear-gradient(#cdb79e,#cdb79e) 10px 40px/60px 20px no-repeat,
-        linear-gradient(#cdb79e,#cdb79e) 0px 30px/20px 30px no-repeat,
-        linear-gradient(#cdb79e,#cdb79e) 60px 30px/20px 30px no-repeat,
-        linear-gradient(#cdb79e,#cdb79e) 20px 20px/40px 40px no-repeat,
-        linear-gradient(#ff0000,#ff0000) 28px 10px/4px 10px no-repeat,
-        linear-gradient(#ff0000,#ff0000) 48px 10px/4px 10px no-repeat;
+        linear-gradient(#d8c8b0,#d8c8b0) 20px 100px/80px 40px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 0 60px/40px 80px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 80px 60px/40px 80px no-repeat,
+        linear-gradient(45deg, transparent 50%, #4caf50 50%) 0 40px/20px 20px no-repeat,
+        linear-gradient(135deg, transparent 50%, #4caf50 50%) 20px 40px/20px 20px no-repeat,
+        linear-gradient(45deg, transparent 50%, #4caf50 50%) 80px 40px/20px 20px no-repeat,
+        linear-gradient(135deg, transparent 50%, #4caf50 50%) 100px 40px/20px 20px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 40px 80px/40px 60px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 40px 40px/40px 40px no-repeat,
+        linear-gradient(45deg, transparent 50%, #4caf50 50%) 40px 20px/20px 20px no-repeat,
+        linear-gradient(135deg, transparent 50%, #4caf50 50%) 60px 20px/20px 20px no-repeat;
+    }
+    .castle.stage6{ background:
+        linear-gradient(#d8c8b0,#d8c8b0) 20px 100px/80px 40px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 0 60px/40px 80px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 80px 60px/40px 80px no-repeat,
+        linear-gradient(45deg, transparent 50%, #4caf50 50%) 0 40px/20px 20px no-repeat,
+        linear-gradient(135deg, transparent 50%, #4caf50 50%) 20px 40px/20px 20px no-repeat,
+        linear-gradient(45deg, transparent 50%, #4caf50 50%) 80px 40px/20px 20px no-repeat,
+        linear-gradient(135deg, transparent 50%, #4caf50 50%) 100px 40px/20px 20px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 40px 80px/40px 60px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 40px 20px/40px 80px no-repeat,
+        linear-gradient(45deg, transparent 50%, #4caf50 50%) 40px 0/20px 20px no-repeat,
+        linear-gradient(135deg, transparent 50%, #4caf50 50%) 60px 0/20px 20px no-repeat;
+    }
+    .castle.stage7{ background:
+        linear-gradient(#d8c8b0,#d8c8b0) 20px 100px/80px 40px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 0 40px/40px 100px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 80px 40px/40px 100px no-repeat,
+        linear-gradient(45deg, transparent 50%, #4caf50 50%) 0 20px/20px 20px no-repeat,
+        linear-gradient(135deg, transparent 50%, #4caf50 50%) 20px 20px/20px 20px no-repeat,
+        linear-gradient(45deg, transparent 50%, #4caf50 50%) 80px 20px/20px 20px no-repeat,
+        linear-gradient(135deg, transparent 50%, #4caf50 50%) 100px 20px/20px 20px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 40px 20px/40px 80px no-repeat,
+        linear-gradient(45deg, transparent 50%, #4caf50 50%) 40px 0/20px 20px no-repeat,
+        linear-gradient(135deg, transparent 50%, #4caf50 50%) 60px 0/20px 20px no-repeat;
+    }
+    .castle.stage8{ background:
+        linear-gradient(#d8c8b0,#d8c8b0) 20px 100px/80px 40px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 0 20px/40px 120px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 80px 20px/40px 120px no-repeat,
+        linear-gradient(45deg, transparent 50%, #4caf50 50%) 0 0/20px 20px no-repeat,
+        linear-gradient(135deg, transparent 50%, #4caf50 50%) 20px 0/20px 20px no-repeat,
+        linear-gradient(45deg, transparent 50%, #4caf50 50%) 80px 0/20px 20px no-repeat,
+        linear-gradient(135deg, transparent 50%, #4caf50 50%) 100px 0/20px 20px no-repeat,
+        linear-gradient(#d8c8b0,#d8c8b0) 40px 20px/40px 80px no-repeat,
+        linear-gradient(45deg, transparent 50%, #4caf50 50%) 40px 0/20px 20px no-repeat,
+        linear-gradient(135deg, transparent 50%, #4caf50 50%) 60px 0/20px 20px no-repeat,
+        linear-gradient(#ff6666,#ff6666) 14px 0/4px 14px no-repeat,
+        linear-gradient(#ff6666,#ff6666) 94px 0/4px 14px no-repeat,
+        linear-gradient(#ff6666,#ff6666) 54px -10px/4px 14px no-repeat;
     }
 
     /* Wandering unicorns and fairies */
@@ -197,6 +252,7 @@
   </header>
 
   <main class="shell">
+    <div id="castle" class="castle stage0" aria-label="Château"></div>
     <section class="panel toolbar" aria-label="Réglages">
       <div class="row">
         <button class="btn" id="startBtn">▶️ Commencer</button>
@@ -217,7 +273,6 @@
 
     <section class="panel game" aria-live="polite">
       <div class="hud">
-        <div id="castle" class="castle stage0" aria-label="Château"></div>
         <div class="stat">Série: <span id="streak">0</span></div>
         <div class="stat">Précision: <span id="accuracy">0%</span></div>
         <div class="stat">Niveau: <span id="levelLabel">4 sons</span></div>
@@ -622,7 +677,7 @@
           const did = unlockNext();
           if(did){ showFeedback(true, '✨ Nouveau son débloqué !'); }
         }
-        state.castleStage = Math.min(5, state.castleStage + 1);
+        state.castleStage = Math.min(8, state.castleStage + 1);
       } else {
         // Wrong: send back to box 1, reschedule soon
         state.streak = 0;
