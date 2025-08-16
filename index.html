@@ -136,7 +136,7 @@
         /* Pixel-art castle with growing towers */
     .castle{
       position:absolute;
-      width:480px; height:480px;
+      width:360px; height:360px;
       left:0; top:50%; transform:translate(calc(-100% - 12px), -50%);
       background-image: url('Media/castle.png');
       background-size: 300% 300%;
@@ -154,9 +154,9 @@
     .castle.stage8{ background-position: right center; }
 
 
-    /* Wandering unicorns and fairies */
-    .critters{ position:fixed; bottom:20px; left:-80px; font-size:32px; pointer-events:none; animation: critterWalk 6s linear forwards; }
-    @keyframes critterWalk{ from{ transform: translateX(0); } to{ transform: translateX(calc(100vw + 80px)); } }
+    /* Flying unicorn */
+    .unicorn{ position:fixed; left:-120px; width:120px; top:40%; pointer-events:none; animation: unicornFly 6s linear forwards; }
+    @keyframes unicornFly{ from{ transform: translateX(0); } to{ transform: translateX(calc(100vw + 240px)); } }
 
     .levelbar{ height: 10px; background:#ffe6f3; border:1px solid #ffd0e6; border-radius:999px; overflow:hidden; }
     .levelbar > i{ display:block; height:100%; width:0%; background: linear-gradient(90deg, #ff9ecb, #ff69b4); transition: width .3s ease; }
@@ -455,12 +455,14 @@
 
     // Optionally speak encouragement/correction
     function speakShort(text){
-      if(state.muted) return;
+      if(state.muted) return null;
       if('speechSynthesis' in window){
         const u = new SpeechSynthesisUtterance(text);
         u.lang = 'fr-FR'; u.rate = 1.0; u.pitch = 1.0;
         window.speechSynthesis.speak(u);
+        return u;
       }
+      return null;
     }
 
     // Render HUD (castle, streak, accuracy, level, timer bar)
@@ -481,11 +483,13 @@
     }
 
     function spawnCritters(){
-      const c = document.createElement('div');
-      c.className = 'critters';
-      c.textContent = '🦄🧚‍♀️';
-      document.body.appendChild(c);
-      setTimeout(()=> c.remove(), 6000);
+      const img = document.createElement('img');
+      img.src = 'Media/unicorn.png';
+      img.alt = 'Licorne';
+      img.className = 'unicorn';
+      img.style.top = (20 + Math.random()*60) + 'vh';
+      document.body.appendChild(img);
+      setTimeout(()=> img.remove(), 6000);
     }
 
     // Visual pulse on level bar when unlocking a new sound
@@ -587,6 +591,7 @@
       state.current.stats.asked++;
       state.asked++;
 
+      let utter = null;
       if(chosen === state.current.g){
         state.current.stats.correct++;
         state.right++;
@@ -604,7 +609,7 @@
         const praise = PRAISE[rnd(0, PRAISE.length-1)];
         showFeedback(true, `${praise} +${gained} pts`);
         celebrate();
-        speakShort(praise);
+        utter = speakShort(praise);
 
         // Unlock progression: every 5 correct answers → +1 sound
         state.correctSinceUnlock++;
@@ -620,13 +625,16 @@
         const penalty = 20; state.score = Math.max(0, state.score - penalty);
         const encourage = ENCOURAGE[rnd(0, ENCOURAGE.length-1)];
         showFeedback(false, `${encourage}  (Bonne réponse : “${state.current.g}”)`);
-        speakShort(encourage);
+        utter = speakShort(encourage);
         state.castleStage = Math.max(0, state.castleStage - 1);
       }
 
       updateHUD();
-      // Proceed after a short pause to let child see feedback
-      setTimeout(nextQuestion, 1200);
+      if(utter){
+        utter.addEventListener('end', ()=> setTimeout(nextQuestion, 200), { once:true });
+      } else {
+        setTimeout(nextQuestion, 1200);
+      }
     }
 
     function lockOptions(){
