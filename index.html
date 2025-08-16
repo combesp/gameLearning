@@ -366,6 +366,11 @@
       castleStage: 0,
     };
 
+    // Background music (gentle loop)
+    const bgm = new Audio('Media/Rainbow Dreams.mp3');
+    bgm.loop = true;
+    bgm.volume = 0.2; // keep low so speech remains clear
+
     // Card object factory
     function makeCard({ g, fam }){
       return {
@@ -471,6 +476,7 @@
         u.lang = 'fr-FR';
         u.rate = 0.9; // slightly slower for clarity
         u.pitch = 1.0;
+        u.volume = 1.0;
         window.speechSynthesis.speak(u);
       }
     }
@@ -481,7 +487,7 @@
       if('speechSynthesis' in window){
         const clean = text.replace(/[^\p{L}\p{N}\s!'?,.-]/gu, '').trim();
         const u = new SpeechSynthesisUtterance(clean);
-        u.lang = 'fr-FR'; u.rate = 1.0; u.pitch = 1.0;
+        u.lang = 'fr-FR'; u.rate = 1.0; u.pitch = 1.0; u.volume = 1.0;
         window.speechSynthesis.speak(u);
         return u;
       }
@@ -718,6 +724,8 @@
     const muteBtn = document.getElementById('muteBtn');
 
     startBtn.addEventListener('click', ()=>{
+      bgm.muted = state.muted;
+      bgm.play().catch(()=>{});
       // Ensure voices are allowed on iOS by starting after a user gesture
       initDeck();
       nextQuestion();
@@ -731,6 +739,7 @@
       state.muted = !state.muted;
       muteBtn.textContent = state.muted ? '🔇 Son off' : '🔈 Muet';
       if(state.muted && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+      bgm.muted = state.muted;
     }, { passive: true });
 
     document.querySelectorAll('input[name="timer"]').forEach(r=>{
