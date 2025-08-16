@@ -133,6 +133,43 @@
     .feedback.ok{ color: var(--ok); }
     .feedback.bad{ color: var(--bad); }
 
+    /* Pixel-art castle built with layered gradients */
+    .castle{ position:relative; width:80px; height:60px; margin:4px auto; }
+    .castle.stage0{ background:none; }
+    .castle.stage1{ background:
+        linear-gradient(#cdb79e,#cdb79e) 10px 40px/60px 20px no-repeat;
+    }
+    .castle.stage2{ background:
+        linear-gradient(#cdb79e,#cdb79e) 10px 40px/60px 20px no-repeat,
+        linear-gradient(#cdb79e,#cdb79e) 0px 30px/20px 30px no-repeat,
+        linear-gradient(#cdb79e,#cdb79e) 60px 30px/20px 30px no-repeat;
+    }
+    .castle.stage3{ background:
+        linear-gradient(#cdb79e,#cdb79e) 10px 40px/60px 20px no-repeat,
+        linear-gradient(#cdb79e,#cdb79e) 0px 30px/20px 30px no-repeat,
+        linear-gradient(#cdb79e,#cdb79e) 60px 30px/20px 30px no-repeat,
+        linear-gradient(#8b7d6b,#8b7d6b) 0px 28px/20px 2px no-repeat,
+        linear-gradient(#8b7d6b,#8b7d6b) 60px 28px/20px 2px no-repeat;
+    }
+    .castle.stage4{ background:
+        linear-gradient(#cdb79e,#cdb79e) 10px 40px/60px 20px no-repeat,
+        linear-gradient(#cdb79e,#cdb79e) 0px 30px/20px 30px no-repeat,
+        linear-gradient(#cdb79e,#cdb79e) 60px 30px/20px 30px no-repeat,
+        linear-gradient(#cdb79e,#cdb79e) 20px 20px/40px 40px no-repeat;
+    }
+    .castle.stage5{ background:
+        linear-gradient(#cdb79e,#cdb79e) 10px 40px/60px 20px no-repeat,
+        linear-gradient(#cdb79e,#cdb79e) 0px 30px/20px 30px no-repeat,
+        linear-gradient(#cdb79e,#cdb79e) 60px 30px/20px 30px no-repeat,
+        linear-gradient(#cdb79e,#cdb79e) 20px 20px/40px 40px no-repeat,
+        linear-gradient(#ff0000,#ff0000) 28px 10px/4px 10px no-repeat,
+        linear-gradient(#ff0000,#ff0000) 48px 10px/4px 10px no-repeat;
+    }
+
+    /* Wandering unicorns and fairies */
+    .critters{ position:fixed; bottom:20px; left:-80px; font-size:32px; pointer-events:none; animation: critterWalk 6s linear forwards; }
+    @keyframes critterWalk{ from{ transform: translateX(0); } to{ transform: translateX(calc(100vw + 80px)); } }
+
     .levelbar{ height: 10px; background:#ffe6f3; border:1px solid #ffd0e6; border-radius:999px; overflow:hidden; }
     .levelbar > i{ display:block; height:100%; width:0%; background: linear-gradient(90deg, #ff9ecb, #ff69b4); transition: width .3s ease; }
 
@@ -180,7 +217,7 @@
 
     <section class="panel game" aria-live="polite">
       <div class="hud">
-        <div class="stat">Score: <span id="score">0</span></div>
+        <div id="castle" class="castle stage0" aria-label="Château"></div>
         <div class="stat">Série: <span id="streak">0</span></div>
         <div class="stat">Précision: <span id="accuracy">0%</span></div>
         <div class="stat">Niveau: <span id="levelLabel">4 sons</span></div>
@@ -315,6 +352,7 @@
       streak: 0,
       muted: false,
       showingSoundOnScreen: false,
+      castleStage: 0,
     };
 
     // Card object factory
@@ -335,6 +373,7 @@
       state.current = null;
       state.lastTargetG = null;
       state.score = 0; state.asked = 0; state.right = 0; state.streak = 0;
+      state.castleStage = 0;
       updateHUD();
     }
 
@@ -435,9 +474,9 @@
       }
     }
 
-    // Render HUD (score, streak, accuracy, level, timer bar)
+    // Render HUD (castle, streak, accuracy, level, timer bar)
     function updateHUD(){
-      document.getElementById('score').textContent = state.score;
+      updateCastle();
       document.getElementById('streak').textContent = state.streak;
       const acc = state.asked ? Math.round((state.right/state.asked)*100) : 0;
       document.getElementById('accuracy').textContent = acc + '%';
@@ -445,6 +484,19 @@
       // Level progress is fraction of sounds unlocked vs total
       const pct = Math.round((state.activeCount / SOUNDS_ORDERED.length) * 100);
       document.getElementById('levelProgress').style.width = pct + '%';
+    }
+
+    function updateCastle(){
+      const el = document.getElementById('castle');
+      el.className = 'castle stage' + state.castleStage;
+    }
+
+    function spawnCritters(){
+      const c = document.createElement('div');
+      c.className = 'critters';
+      c.textContent = '🦄🧚‍♀️';
+      document.body.appendChild(c);
+      setTimeout(()=> c.remove(), 6000);
     }
 
     // Visual pulse on level bar when unlocking a new sound
@@ -570,6 +622,7 @@
           const did = unlockNext();
           if(did){ showFeedback(true, '✨ Nouveau son débloqué !'); }
         }
+        state.castleStage = Math.min(5, state.castleStage + 1);
       } else {
         // Wrong: send back to box 1, reschedule soon
         state.streak = 0;
@@ -577,6 +630,7 @@
         const penalty = 20; state.score = Math.max(0, state.score - penalty);
         showFeedback(false, ENCOURAGE[rnd(0, ENCOURAGE.length-1)] + `  (Bonne réponse : “${state.current.g}”)`);
         speakShort('On réessaie !');
+        state.castleStage = Math.max(0, state.castleStage - 1);
       }
 
       updateHUD();
@@ -631,6 +685,7 @@
     // Create a new round
     function nextQuestion(){
       state.questionIndex++;
+      if(state.questionIndex % 5 === 0){ spawnCritters(); }
       // Pick next due card; if deck empty (shouldn't happen), re-init
       const card = pickNextCard();
       state.current = card; state.lastTargetG = card.g;
