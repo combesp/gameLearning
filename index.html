@@ -226,21 +226,20 @@
     // in the same question (e.g., an/en belong to the same nasal sound).
     const SOUNDS_ORDERED = [
       // Initial set (level 1)
-      { g: 'on', fam: 'on' },
+      { g: 'ch', fam: 'ch' },
       { g: 'ou', fam: 'ou' },
+      { g: 'on', fam: 'on' },
+      { g: 'fr', fam: 'fr' },
+      { g: 'cl', fam: 'cl' },
       { g: 'an', fam: 'an' },
       { g: 'ai', fam: 'ai' },
       // Progressive unlocks (each added later)
       { g: 'oi', fam: 'oi' },
       { g: 'au', fam: 'au' },
       { g: 'eu', fam: 'eu' },
-      { g: 'ch', fam: 'ch' },
       { g: 'gn', fam: 'gn' },
       { g: 'ill', fam: 'ill' },
       { g: 'ph', fam: 'ph' }, // pronounced /f/
-      { g: 'ui', fam: 'ui' },
-      { g: 'oin', fam: 'oin' },
-      { g: 'ion', fam: 'ion' },
       { g: 'ien', fam: 'ien' },
       { g: 'in', fam: 'in' },
       { g: 'ain', fam: 'in' },
@@ -257,19 +256,18 @@
     // How to pronounce each grapheme with TTS (French). Some are adjusted
     // so the synthetic voice says the intended sound (e.g., "ill" -> "ille").
     const PRONOUNCE = {
+      'fr': 'freu',
+      'cl': 'cleu',
       'an': 'en',
-      'ill': 'ille',
-      'ph': 'f',
+      'ill': 'iille',
+      'ph': 'feu',
       'œu': 'eux',
       'oi': 'oie',
       'au': 'o',
       'eau': 'o',
-      'ch': 'che',
-      'gn': 'gni',
-      'ui': 'oui',
-      'oin': 'ouin',
-      'ion': 'yon',
-      'ien': 'yen',
+      'ch': 'cheu',
+      'gn': 'gneu',
+      'ien': 'hien',
       'ain': 'in',
       'ein': 'in',
       'am': 'en',
