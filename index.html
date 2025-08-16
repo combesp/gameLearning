@@ -105,6 +105,7 @@
       position: relative; width: 120px; height: 12px; border-radius:999px; overflow: hidden; background:#ffd6eb; border:1px solid #ffc1de;
     }
     .timer > i{ position:absolute; inset:0; background: linear-gradient(90deg,#b2f7ef,#cfd2ff,#ffc6ff,#ffd6a5); width: calc(var(--p,100) * 1%); transition: width .2s linear; }
+    .timer > span{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color: var(--ink); pointer-events:none; }
 
     .prompt{
       display:flex; align-items:center; justify-content:center; gap:8px; 
@@ -183,7 +184,7 @@
         <div class="stat">Série: <span id="streak">0</span></div>
         <div class="stat">Précision: <span id="accuracy">0%</span></div>
         <div class="stat">Niveau: <span id="levelLabel">4 sons</span></div>
-        <div class="timer" id="timer" aria-label="Temps restant"><i></i></div>
+        <div class="timer" id="timer" aria-label="Temps restant"><i></i><span id="timerText"></span></div>
       </div>
 
       <div class="prompt" id="prompt">
@@ -259,6 +260,21 @@
       'ill': 'ille',
       'ph': 'f',
       'œu': 'eu',
+      'ai': 'è',
+      'oi': 'oua',
+      'au': 'o',
+      'eau': 'o',
+      'ch': 'che',
+      'gn': 'gni',
+      'ui': 'oui',
+      'oin': 'ouin',
+      'ion': 'yon',
+      'ien': 'yen',
+      'ain': 'in',
+      'ein': 'in',
+      'am': 'an',
+      'em': 'an',
+      'um': 'un',
       // default: use grapheme itself
     };
 
@@ -444,12 +460,14 @@
       clearInterval(state.timerTick);
       state.timerLeft = state.timerTotal;
       setTimerBar(100);
+      document.getElementById('timerText').textContent = Math.round(state.timerTotal / 1000);
       const startedAt = performance.now();
       state.timerTick = setInterval(()=>{
         const elapsed = performance.now() - startedAt;
         state.timerLeft = Math.max(0, state.timerTotal - elapsed);
         const p = Math.max(0, Math.round((state.timerLeft / state.timerTotal) * 100));
         setTimerBar(p);
+        document.getElementById('timerText').textContent = Math.ceil(state.timerLeft / 1000);
         if(state.timerLeft <= 0){
           clearInterval(state.timerTick);
           timesUp();
