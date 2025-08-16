@@ -155,8 +155,19 @@
 
 
     /* Flying unicorn */
-    .unicorn{ position:fixed; left:-120px; width:120px; top:40%; pointer-events:none; animation: unicornFly 6s linear forwards; }
-    @keyframes unicornFly{ from{ transform: translateX(0); } to{ transform: translateX(calc(100vw + 240px)); } }
+    .unicorn{
+      position:fixed;
+      left:-180px;
+      top:40%;
+      width:180px;
+      height:180px;
+      pointer-events:none;
+      background:url('Media/unicorn.png') 0 0 / 900% 100% no-repeat;
+      animation: unicornFly 6s linear forwards, unicornGallop 1s steps(9) infinite;
+      z-index: 20;
+    }
+    @keyframes unicornFly{ from{ transform: translateX(0); } to{ transform: translateX(calc(100vw + 360px)); } }
+    @keyframes unicornGallop{ from{ background-position:0 0; } to{ background-position:100% 0; } }
 
     .levelbar{ height: 10px; background:#ffe6f3; border:1px solid #ffd0e6; border-radius:999px; overflow:hidden; }
     .levelbar > i{ display:block; height:100%; width:0%; background: linear-gradient(90deg, #ff9ecb, #ff69b4); transition: width .3s ease; }
@@ -457,7 +468,8 @@
     function speakShort(text){
       if(state.muted) return null;
       if('speechSynthesis' in window){
-        const u = new SpeechSynthesisUtterance(text);
+        const clean = text.replace(/[^\p{L}\p{N}\s!'?,.-]/gu, '').trim();
+        const u = new SpeechSynthesisUtterance(clean);
         u.lang = 'fr-FR'; u.rate = 1.0; u.pitch = 1.0;
         window.speechSynthesis.speak(u);
         return u;
@@ -483,13 +495,11 @@
     }
 
     function spawnCritters(){
-      const img = document.createElement('img');
-      img.src = 'Media/unicorn.png';
-      img.alt = 'Licorne';
-      img.className = 'unicorn';
-      img.style.top = (20 + Math.random()*60) + 'vh';
-      document.body.appendChild(img);
-      setTimeout(()=> img.remove(), 6000);
+      const uni = document.createElement('div');
+      uni.className = 'unicorn';
+      uni.style.top = (20 + Math.random()*60) + 'vh';
+      document.body.appendChild(uni);
+      setTimeout(()=> uni.remove(), 6000);
     }
 
     // Visual pulse on level bar when unlocking a new sound
