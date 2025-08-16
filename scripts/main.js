@@ -112,9 +112,13 @@ const state = {
 };
 
 // Background music (gentle loop)
-const bgm = new Audio('Media/Rainbow Dreams.mp3');
-bgm.loop = true;
-bgm.volume = 0.2; // keep low so speech remains clear
+// In Node.js tests, `Audio` may be undefined, so guard its usage
+const bgm = typeof Audio !== 'undefined' ? new Audio('Media/Rainbow Dreams.mp3') : { play:()=>{}, muted:false };
+if(bgm){
+  bgm.loop = true;
+  if('volume' in bgm) bgm.volume = 0.2; // keep low so speech remains clear
+}
+
 
 // Card object factory
 function makeCard({ g, fam }){
@@ -464,60 +468,78 @@ function nextQuestion(){
 }
 
 // ---------------------- UI bindings -------------------------
-const startBtn = document.getElementById('startBtn');
-const replayBtn = document.getElementById('replayBtn');
-const muteBtn = document.getElementById('muteBtn');
+if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+  const startBtn = document.getElementById('startBtn');
+  const replayBtn = document.getElementById('replayBtn');
+  const muteBtn = document.getElementById('muteBtn');
 
-startBtn.addEventListener('click', ()=>{
-  bgm.muted = state.muted;
-  bgm.play().catch(()=>{});
-  // Ensure voices are allowed on iOS by starting after a user gesture
-  initDeck();
-  nextQuestion();
-}, { passive: true });
-
-replayBtn.addEventListener('click', ()=>{
-  if(state.current) speak(state.current.g);
-}, { passive: true });
-
-muteBtn.addEventListener('click', ()=>{
-  state.muted = !state.muted;
-  muteBtn.textContent = state.muted ? '🔇 Son off' : '🔈 Muet';
-  if(state.muted && 'speechSynthesis' in window) window.speechSynthesis.cancel();
-  bgm.muted = state.muted;
-}, { passive: true });
-
-document.querySelectorAll('input[name="timer"]').forEach(r=>{
-  r.addEventListener('change', ()=>{
-    const v = parseInt(r.value, 10);
-    if(r.checked){ state.timerTotal = v * 1000; }
-  }, { passive: true });
-});
-
-document.getElementById('showSoundToggle').addEventListener('change', (e)=>{
-  state.showingSoundOnScreen = !!e.currentTarget.checked;
-  // If a question is on-screen, update prompt text immediately
-  if(state.current){
-    const prompt = document.getElementById('promptText');
-    prompt.textContent = state.showingSoundOnScreen ? `Quel est le son “${state.current.g}” ?` : 'Écoute et choisis le bon son…';
+  if(startBtn){
+    startBtn.addEventListener('click', ()=>{
+      bgm.muted = state.muted;
+      bgm.play().catch(()=>{});
+      // Ensure voices are allowed on iOS by starting after a user gesture
+      initDeck();
+      nextQuestion();
+    }, { passive: true });
   }
-}, { passive: true });
 
-// Accessibility: replay sound with keyboard "R"
-window.addEventListener('keydown', (e)=>{
-  if(e.key.toLowerCase() === 'r'){ if(state.current) speak(state.current.g); }
-});
+  if(replayBtn){
+    replayBtn.addEventListener('click', ()=>{
+      if(state.current) speak(state.current.g);
+    }, { passive: true });
+  }
 
-// On resize, update confetti canvas size if it exists
-window.addEventListener('resize', ()=>{
-  const cvs = document.getElementById('confetti');
-  if(cvs){ cvs.width = window.innerWidth; cvs.height = window.innerHeight; }
-});
+  if(muteBtn){
+    muteBtn.addEventListener('click', ()=>{
+      state.muted = !state.muted;
+      muteBtn.textContent = state.muted ? '🔇 Son off' : '🔈 Muet';
+      if(state.muted && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+      bgm.muted = state.muted;
+    }, { passive: true });
+  }
 
-// Gentle reminder if Web Speech API missing
-if(!('speechSynthesis' in window)){
-  const fb = document.getElementById('feedback');
-  fb.className = 'feedback bad';
-  fb.textContent = '⚠️ La synthèse vocale n\'est pas disponible sur ce navigateur. Le jeu reste jouable, mais sans voix.';
+  document.querySelectorAll('input[name="timer"]').forEach(r=>{
+    r.addEventListener('change', ()=>{
+      const v = parseInt(r.value, 10);
+      if(r.checked){ state.timerTotal = v * 1000; }
+    }, { passive: true });
+  });
+
+  const showToggle = document.getElementById('showSoundToggle');
+  if(showToggle){
+    showToggle.addEventListener('change', (e)=>{
+      state.showingSoundOnScreen = !!e.currentTarget.checked;
+      // If a question is on-screen, update prompt text immediately
+      if(state.current){
+        const prompt = document.getElementById('promptText');
+        prompt.textContent = state.showingSoundOnScreen ? `Quel est le son “${state.current.g}” ?` : 'Écoute et choisis le bon son…';
+      }
+    }, { passive: true });
+  }
+
+  // Accessibility: replay sound with keyboard "R"
+  window.addEventListener('keydown', (e)=>{
+    if(e.key.toLowerCase() === 'r'){ if(state.current) speak(state.current.g); }
+  });
+
+  // On resize, update confetti canvas size if it exists
+  window.addEventListener('resize', ()=>{
+    const cvs = document.getElementById('confetti');
+    if(cvs){ cvs.width = window.innerWidth; cvs.height = window.innerHeight; }
+  });
+
+  // Gentle reminder if Web Speech API missing
+  if(!('speechSynthesis' in window)){
+    const fb = document.getElementById('feedback');
+    if(fb){
+      fb.className = 'feedback bad';
+      fb.textContent = '⚠️ La synthèse vocale n\'est pas disponible sur ce navigateur. Le jeu reste jouable, mais sans voix.';
+    }
+  }
 }
 
+
+// Export functions for testing in Node environment
+if (typeof module !== "undefined") {
+  module.exports = { buildOptions, pickNextCard, schedule, state, SOUNDS_ORDERED, makeCard, BOX_INTERVALS };
+}

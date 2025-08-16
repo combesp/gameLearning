@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "Simple educational game",
   "scripts": {
-    "test": "echo \"No tests specified\""
+    "test": "jest"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
